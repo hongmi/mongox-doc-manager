@@ -63,9 +63,20 @@ class DocManager(DocManagerBase):
     def __init__(self, url, **kwargs):
         """ Verify URL and establish a connection.
         """
+        username = kwargs.pop('username', '')
+        password = kwargs.pop('password', '')
+        passwordFile = kwargs.pop('passwordFile', '')
+        if passwordFile:
+            with open(passwordFile, 'r') as f:
+                password = f.read().strip()
+
+        # ingest username and password into mongodb url,
+        # assume mongodb url likes 'mongodb://[username:password@]hosts/[db]'
+        if username and password:
+            url = url.replace('mongodb://', 'mongodb://{}:{}@'.format(username, password))
+
         try:
-            self.mongo = pymongo.MongoClient(
-                url, **kwargs.get('clientOptions', {}))
+            self.mongo = pymongo.MongoClient(url, **kwargs.get('clientOptions', {}))
         except pymongo.errors.InvalidURI:
             raise errors.ConnectionFailed("Invalid URI for MongoDB")
         except pymongo.errors.ConnectionFailure:

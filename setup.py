@@ -33,7 +33,7 @@ from distutils.core import setup
 
 setup(
     name='mongox-doc-manager',
-    version='0.0.4',
+    version='0.0.5',
     packages=["mongo_connector", "mongo_connector.doc_managers"],
     url='https://github.com/hongmi/mongox-doc-manager',
     license='http://www.apache.org/licenses/LICENSE-2.0.html',
