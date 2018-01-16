@@ -196,7 +196,12 @@ class DocManager(DocManagerBase):
              "ns": namespace},
             upsert=True)
 
-        update_spec['updateId'] = ObjectId()
+        if '$' in '.'.join(update_spec.keys()):
+            if '$set' not in update_spec:
+                update_spec['$set'] = {}
+            update_spec['$set']['updateId'] = ObjectId()
+        else:
+            update_spec['updateId'] = ObjectId()
 
         no_obj_error = "No matching object found"
         updated = self.mongo[db].command(
