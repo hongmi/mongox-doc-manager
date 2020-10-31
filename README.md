@@ -9,3 +9,5 @@ pip install mongox-doc-manger
 # usage
 please refer to mongo-doc-manager
 
+# community
+QQ: 320123073
